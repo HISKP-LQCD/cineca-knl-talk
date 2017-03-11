@@ -671,4 +671,30 @@
 % \end{frame}
 
 
+  \begin{frame}
+      \begin{tikzpicture}
+          \begin{axis}[
+                  xmin = 1.5,
+                  xmax = 3.5,
+                  xtick={2, 3},
+                  xticklabels={4, 8},
+                  xlabel={SoA length},
+                  ylabel={GFlop/s},
+                  ybar,
+                  legend pos=outer north east,
+                  ymajorgrids=true,
+              ]
+
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 113.832583333 ) +- (0, 0.551468890257 ) ( 3.0 , 109.738241667 ) +- (0, 2.46219177387 ) };
+              \addlegendentry{ DOUBLE }
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 166.009833333 ) +- (0, 2.27407204467 ) ( 3.0 , 276.273916667 ) +- (0, 1.93651624652 ) };
+              \addlegendentry{ HALF }
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 191.19375 ) +- (0, 6.59475283119 ) ( 3.0 , 243.890916667 ) +- (0, 2.48770228507 ) };
+              \addlegendentry{ SINGLE }
+
+          \end{axis}
+      \end{tikzpicture}
+  \end{frame}
+
+
   \end{document}
