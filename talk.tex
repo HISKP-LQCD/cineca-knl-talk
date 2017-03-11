@@ -7,23 +7,20 @@
 \usepackage{bbold}
 \usepackage{beamerthemesplit}
 \usepackage[bf]{caption}
-\usepackage[markup=nocolor]{changes}
 \usepackage{cite}
 \usepackage{color}
 \usepackage{enumerate}
 \usepackage{eurosym}
 \usepackage{graphicx}
-\usepackage{grffile}
-\usepackage{nicefrac}
-\usepackage{psfrag}
 \usepackage{rotating}
 \usepackage{slashed}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
-\usepackage{simplewick}
-\usepackage{multirow}
 \usepackage{array}
 \usepackage{listings}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.10}
 
 % My fonts:
 % ---------
@@ -55,8 +52,8 @@
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  tabsize=2
-	keywords={var, func, extends},
+  tabsize=2,
+        keywords={var, func, extends},
 }
 \lstset{style=mystyle}
 
@@ -337,12 +334,12 @@
     \begin{columns}[T]
       \begin{column}{.5\textwidth}
         \begin{center}
-          \includegraphics[width=0.7\textwidth]{knl.eps}
+          %\includegraphics[width=0.7\textwidth]{knl.eps}
         \end{center}
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
-          \includegraphics[width=0.7\textwidth]{tile.png}
+          %\includegraphics[width=0.7\textwidth]{tile.png}
         \end{center}
       \end{column}
     \end{columns}
@@ -435,7 +432,7 @@
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
-          \includegraphics[width=\textwidth]{XYplane.png}
+          %\includegraphics[width=\textwidth]{XYplane.png}
           \vfill
         \end{center}
       \end{column}
@@ -466,7 +463,7 @@
     \end{itemize}
 
     \tiny
-    \lstinputlisting[language=C++]{codegen.cc}
+    %\lstinputlisting[language=C++]{codegen.cc}
 \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -479,15 +476,15 @@
 
     \begin{columns}[T]
       \begin{column}{.5\textwidth}
-        \lstinputlisting[language=C++]{old.cc}
+        %\lstinputlisting[language=C++]{old.cc}
       \end{column}
       \begin{column}{.5\textwidth}
-        \lstinputlisting[language=C++]{new.cc}
+        %\lstinputlisting[language=C++]{new.cc}
       \end{column}
     \end{columns}
     % \pause
 
-    \lstinputlisting[language=C++]{clover.cc}
+    %\lstinputlisting[language=C++]{clover.cc}
 \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -497,7 +494,7 @@
 \begin{frame}[fragile]
     \frametitle{Code Example 2: Extending the User Interface}
     \tiny
-    \lstinputlisting[language=C++]{user.cc}
+%\lstinputlisting[language=C++]{user.cc}
 \end{frame}
 
 
@@ -514,20 +511,20 @@
       \begin{column}{.5\textwidth}
         \begin{center}
           $c_{sw} = 0, \; \mu = 0$ \\
-          \includegraphics[width=0.8\textwidth]{wils_32.png}
+          %\includegraphics[width=0.8\textwidth]{wils_32.png}
           \vfill
           $c_{sw} \neq 0, \; \mu = 0$ \\
-          \includegraphics[width=0.8\textwidth]{clov_32.png}
+          %\includegraphics[width=0.8\textwidth]{clov_32.png}
           \vfill
         \end{center}
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
           $c_{sw} = 0, \; \mu \neq 0$ \\
-          \includegraphics[width=0.8\textwidth]{twmd_32.png}
+          %\includegraphics[width=0.8\textwidth]{twmd_32.png}
           \vfill
           $c_{sw} \neq 0, \; \mu \neq 0$ \\
-          \includegraphics[width=0.8\textwidth]{twmc_32.png}
+          %\includegraphics[width=0.8\textwidth]{twmc_32.png}
           \vfill
         \end{center}
       \end{column}
@@ -551,14 +548,14 @@
       \begin{column}{.5\textwidth}
         \begin{center}
           KNC:\\
-          \includegraphics[width=1.0\textwidth]{wils_knc_old.png}
+          %\includegraphics[width=1.0\textwidth]{wils_knc_old.png}
           \vfill
         \end{center}
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
           KNL:\\
-          \includegraphics[width=1.0\textwidth]{wils_knl_old.png}
+          %\includegraphics[width=1.0\textwidth]{wils_knl_old.png}
           \vfill
         \end{center}
       \end{column}
@@ -586,14 +583,14 @@
       \begin{column}{.5\textwidth}
         \begin{center}
           Dual-Socket Xeon (Haswell):\\
-          \includegraphics[width=1.0\textwidth]{multi_xeon.png}
+          %\includegraphics[width=1.0\textwidth]{multi_xeon.png}
           \vfill
         \end{center}
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
           Xeon Phi (KNC):\\
-          \includegraphics[width=1.0\textwidth]{multi_knc.png}
+          %\includegraphics[width=1.0\textwidth]{multi_knc.png}
           \vfill
         \end{center}
       \end{column}
