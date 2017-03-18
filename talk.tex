@@ -94,8 +94,8 @@
 \allowdisplaybreaks[1]
 
 \title{Lattice QCD on Intel Xeon Phi's}
-\author{Peter Labus \\[2em] {\small in collaboration with Bartosz Kostrzewa and Martin Ueding \\ @ HISKP Universität Bonn} }
-  \date{JSC Jülich \\ 10.02.2016}
+\author{Peter Labus \and Martin Ueding }
+  \date{Cineca \\ 2017-03-23}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%   TITLE SLIDE
@@ -243,39 +243,39 @@
   %%%   SLIDE 5
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \begin{frame}
-    \frametitle{The Clover Term}
-
-    $A$ is a $12 \times 12$ complex, block-diagonal matrix (each lattice site):
-    \begin{align*}
-      A &=
-      \begin{pmatrix}
-        ( \alpha \pm i \mu ) \, \mathbb{1}_6 + c_{SW} B_0 & \mathbb 0_6 \\
-        \mathbb 0_6 & (\alpha \mp i \mu) \, \mathbb{1}_6 + c_{SW} B_1
-      \end{pmatrix}
-    \end{align*}
-    \vfill
-
-    QPhiX so far:
-    \begin{itemize}
-      \item $\mu = 0 \Rightarrow A$ and $A^{-1}$ are hermitian (and block-diagonal)
-      \item need to store only two blocks with
-        \begin{itemize}
-          \item 6 real diagonal elements
-          \item 15 complex off-diagonal elements
-        \end{itemize}
-    \end{itemize}
-    \vfill
-
-    We want: $\mu \neq 0$
-    \begin{itemize}
-      \item then $A$ is not hermitian
-      \item in particular $A^{-1}$ is dense (but still block-diagonal)
-      \item need to store two full $6 \times 6$ complex blocks
-    \end{itemize}
-    \vfill
-
-  \end{frame}
+%  \begin{frame}
+%    \frametitle{The Clover Term}
+%
+%    $A$ is a $12 \times 12$ complex, block-diagonal matrix (each lattice site):
+%    \begin{align*}
+%      A &=
+%      \begin{pmatrix}
+%        ( \alpha \pm i \mu ) \, \mathbb{1}_6 + c_{SW} B_0 & \mathbb 0_6 \\
+%        \mathbb 0_6 & (\alpha \mp i \mu) \, \mathbb{1}_6 + c_{SW} B_1
+%      \end{pmatrix}
+%    \end{align*}
+%    \vfill
+%
+%    QPhiX so far:
+%    \begin{itemize}
+%      \item $\mu = 0 \Rightarrow A$ and $A^{-1}$ are hermitian (and block-diagonal)
+%      \item need to store only two blocks with
+%        \begin{itemize}
+%          \item 6 real diagonal elements
+%          \item 15 complex off-diagonal elements
+%        \end{itemize}
+%    \end{itemize}
+%    \vfill
+%
+%    We want: $\mu \neq 0$
+%    \begin{itemize}
+%      \item then $A$ is not hermitian
+%      \item in particular $A^{-1}$ is dense (but still block-diagonal)
+%      \item need to store two full $6 \times 6$ complex blocks
+%    \end{itemize}
+%    \vfill
+%
+%  \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%   SLIDE 6
@@ -776,4 +776,9 @@
           \end{axis}
       \end{tikzpicture}
   \end{frame}
+
+  \begin{frame}
+    \titlepage
+  \end{frame}
+
   \end{document}
