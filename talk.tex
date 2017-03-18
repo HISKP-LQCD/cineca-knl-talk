@@ -630,10 +630,6 @@
     \end{itemize}
     \pause
 
-    \begin{center}
-      \Large THANKS!
-    \end{center}
-
   \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -700,7 +696,30 @@
   \end{frame}
 
   \begin{frame}
-      \frametitle{Strong Scaling}
+      \frametitle{Multi Node Performance}
+      \framesubtitle{Parameters}
+
+      \begin{itemize}
+          \item SOALEN = 8
+          \item Block size = 4
+          \item Single precision
+          \item 12-Parameter gauge compression
+          \item Lattice sizes $32^3 \times 64$, $48^3 \times 96$, and $64^3 \times 128$
+      \end{itemize}
+
+      \begin{itemize}
+          \item Cache mode
+          \item Quadrant configuration
+          \item One MPI rank per KNL
+          \item 8, 16, 32, and 64 KNL
+          \item Different rank geometries ($g_1 g_2 g_3 g_4 = \text{\# ranks}$)
+      \end{itemize}
+      
+  \end{frame}
+
+  \begin{frame}
+      \frametitle{Multi Node Performance}
+      \framesubtitle{Strong Scaling}
 
       \centering
       \begin{tikzpicture}
@@ -724,7 +743,8 @@
   \end{frame}
 
   \begin{frame}
-      \frametitle{Lattice Size Scaling}
+      \frametitle{Multi Node Performance}
+      \framesubtitle{Lattice Size Scaling}
 
       \centering
       \begin{tikzpicture}
