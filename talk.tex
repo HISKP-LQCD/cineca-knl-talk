@@ -672,6 +672,9 @@
 
 
   \begin{frame}
+      \frametitle{Single Node Performance}
+
+      \centering
       \begin{tikzpicture}
           \begin{axis}[
                   xmin = 1.5,
@@ -685,16 +688,70 @@
                   ymajorgrids=true,
               ]
 
-              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 113.832583333 ) +- (0, 0.551468890257 ) ( 3.0 , 109.738241667 ) +- (0, 2.46219177387 ) };
-              \addlegendentry{ DOUBLE }
               \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 166.009833333 ) +- (0, 2.27407204467 ) ( 3.0 , 276.273916667 ) +- (0, 1.93651624652 ) };
               \addlegendentry{ HALF }
               \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 191.19375 ) +- (0, 6.59475283119 ) ( 3.0 , 243.890916667 ) +- (0, 2.48770228507 ) };
               \addlegendentry{ SINGLE }
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 113.832583333 ) +- (0, 0.551468890257 ) ( 3.0 , 109.738241667 ) +- (0, 2.46219177387 ) };
+              \addlegendentry{ DOUBLE }
 
           \end{axis}
       \end{tikzpicture}
   \end{frame}
 
+  \begin{frame}
+      \frametitle{Strong Scaling}
 
+      \centering
+      \begin{tikzpicture}
+          \begin{axis}[
+                  xlabel={Number of Nodes},
+                  ylabel={GFlop/s Total},
+                  legend pos=outer north east,
+                  grid=major,
+              ]
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {strong-32.tsv};
+              \addlegendentry{$L = 32$}
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {strong-48.tsv};
+              \addlegendentry{$L = 48$}
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {strong-64.tsv};
+              \addlegendentry{$L = 64$}
+          \end{axis}
+      \end{tikzpicture}
+  \end{frame}
+
+  \begin{frame}
+      \frametitle{Lattice Size Scaling}
+
+      \centering
+      \begin{tikzpicture}
+          \begin{axis}[
+                  xlabel={Linear Lattice Size $L$},
+                  ylabel={GFlop/s Total},
+                  legend pos=outer north east,
+                  grid=major,
+              ]
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {weak-8.tsv};
+              \addlegendentry{8 Nodes}
+
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {weak-16.tsv};
+              \addlegendentry{16 Nodes}
+
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {weak-32.tsv};
+              \addlegendentry{32 Nodes}
+
+
+              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {weak-64.tsv};
+              \addlegendentry{64 Nodes}
+
+          \end{axis}
+      \end{tikzpicture}
+  \end{frame}
   \end{document}
