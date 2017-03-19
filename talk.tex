@@ -725,6 +725,7 @@
                   ylabel={GFlop/s Total},
                   legend pos=outer north east,
                   grid=major,
+                  xtick=data,
               ]
               \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-64.tsv};
@@ -750,6 +751,7 @@
                   ylabel={GFlop/s Total},
                   legend pos=outer north east,
                   grid=major,
+                  xtick=data,
               ]
 
               \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
