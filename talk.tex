@@ -566,15 +566,85 @@
       \begin{column}{.5\textwidth}
         \begin{center}
           KNC:\\
-          %\includegraphics[width=1.0\textwidth]{wils_knc_old.png}
+      \begin{tikzpicture}[scale=0.6]
+        \begin{axis}[
+            xtick=data,
+            xticklabels={
+vector,
+vector + L1,
+vector + L2,
+vector + L1 and L2,
++ Barrier,
++ SOA=8,
++ compression
+            },
+            x tick label style={rotate=-35,anchor=north west},
+                  ylabel={GFlop/s},
+                  ymin=0,
+                  ymax=470,
+                  ybar,
+                  legend pos=outer north east,
+                  ymajorgrids=true,
+                ]
+
+              \addplot coordinates
+              {
+                (1, 172)
+                (2, 144)
+                (3, 176)
+                (4, 191)
+                (5, 199)
+                (6, 234)
+                (7, 286)
+              };
+
+        \end{axis}
+      \end{tikzpicture}
+
           \vfill
         \end{center}
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
           KNL:\\
-          %\includegraphics[width=1.0\textwidth]{wils_knl_old.png}
-          \vfill
+      \begin{tikzpicture}[scale=0.6]
+        \begin{axis}[
+            xtick=data,
+            xticklabels={
+vector,
++ packed gauges,
++ streaming stores,
+(3) + L1,
+(3) + L2,
+(3) + L1 and L2,
+(3) + Barrier,
++ SOA=8,
++ compression,
+            },
+            x tick label style={rotate=-35,anchor=north west},
+                  ylabel={GFlop/s},
+                  ymin=0,
+                  ymax=470,
+                  ybar,
+                  legend pos=outer north east,
+                  ymajorgrids=true,
+                ]
+
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates
+              {
+                (1, 362.5) +- (0, 18.4)
+                (2, 384.3) +- (0, 19.3)
+                (3, 380.1) +- (0, 18.6)
+                (4, 377.5) +- (0, 18.6)
+                (5, 344.9) +- (0, 14.3)
+                (6, 359.5) +- (0, 13.5)
+                (7, 381.2) +- (0, 26.9)
+                (8, 386.9) +- (0, 21.0)
+                (9, 434.2) +- (0, 14.5)
+              };
+
+        \end{axis}
+      \end{tikzpicture}
         \end{center}
       \end{column}
     \end{columns}
@@ -709,7 +779,7 @@
           \item Different rank geometries ($g_1 g_2 g_3 g_4 = \text{\# ranks}$)
           \item Runs performed 2017-03-14 (last Tuesday)
       \end{itemize}
-      
+
   \end{frame}
 
   \begin{frame}
