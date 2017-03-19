@@ -1,6 +1,8 @@
 #!/bin/bash
 # Copyright © 2017 Martin Ueding <dev@martin-ueding.de>
 
+# Compiles the LaTeX document with the fanciest wrapper available.
+
 talk=talk.tex
 
 if type latexrun &> /dev/null; then
