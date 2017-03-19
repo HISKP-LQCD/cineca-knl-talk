@@ -88,6 +88,9 @@
     \endgroup
 }
 
+%\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen}
+
 
 \begin{document}
 
@@ -117,7 +120,7 @@
     \begin{itemize}
       \item  Calculate integrals of the form
         \begin{align*}
-          \int \mathcal D \Phi \; f[\Phi] \, e^{-S_{QCD}[\Phi]}
+          \int \mathcal D \Phi \; f[\Phi] \, \mathrm e^{-S_\text{QCD}[\Phi]}
         \end{align*}
         after \textit{discretising} space-time through a lattice
         \vfill
@@ -144,7 +147,7 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}
-    \frametitle{The QPhiX library (mainly: Balint Joo, Jefferson Lab)}
+    \frametitle{The QPhiX library (mainly: Bálint Joó, Jefferson Lab)}
 
     \begin{itemize}
       \item Aim: provide stencil operations for \textbf{general vector machines}
@@ -171,7 +174,7 @@
           \item \texttt{bool COMPRESS12}
         \end{enumerate}
         \vfill
-      \item \textbf{Our goal: Integrate Twisted-Mass Fermions in QPhiX}\\
+      \item Our goal: Integrate Twisted-Mass Fermions in QPhiX \\
         This amounts to a change in the Fermion Matrix $M$ \dots
     \end{itemize}
 
@@ -190,7 +193,7 @@
     where $\slashed D$ is the nearest-neighbour \textbf{\textit{dslash} stencil}.
     \vfill
 
-    $M$ can be constructed from two BLAS Matrx-Vector \textit{kernels}:
+    $M$ can be constructed from two BLAS Matrix-Vector \textit{kernels}:
     \begin{align*}
       (1) \;\; A^{-1} \, \slashed D \, x \,, \quad \quad \quad
       (2) \;\; A \, x - \frac 14 \, \slashed D \, y \,.
@@ -198,14 +201,13 @@
     The vectors $x$ and $y$ are called \textit{spinors}.
     \vfill
 
-    The \textbf{Clover Term} $A$ includes the {\color{red} new} \textit{twisted-mass}:
+    The Clover Term $A$ includes a local $12 \times 12 $ matrix:
     \begin{align*}
       A \equiv
       \alpha \, \mathbb 1
       + c_{sw} T
-      {\color{red} \, \pm \, i \mu \gamma_5} \,,
     \end{align*}
-    where $c_{sw}$ and $\mu$ are user parameters, while $\alpha$ is fixed.
+    where $c_{sw}$ is a user parameter, while $\alpha$ is fixed.
     \vfill
   \end{frame}
 
@@ -310,9 +312,11 @@
     \end{align*}
     \vfill
 
-    \large
-    \centering \textbf{ALL ROUTINES ARE MEMORY BANDWIDTH BOUND}\\
-    \textbf{Expect about 20\% less performance with twisted-mass}
+    {
+          \large
+      \centering \textbf{ALL ROUTINES ARE MEMORY BANDWIDTH BOUND}\\
+  }
+    %\textbf{Expect about 20\% less performance with twisted-mass}
 
     \vfill
     {
@@ -320,6 +324,8 @@
       Combining these Intensities with a simple hardware model and the (measured) memory bandwidth
       gives us a good \textit{rooftop model} \dots
     }
+
+      \note{Since our intensity is about 1, we can directly read off the maximum performance we can achieve from the memory bandwidth.}
 
   \end{frame}
 
@@ -432,8 +438,25 @@
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
-          %\includegraphics[width=\textwidth]{XYplane.png}
-          \vfill
+\begin{tikzpicture}[scale=0.3]
+
+    \fill[fill=black!20] (0, 0) rectangle +(4, 1);
+    \fill[fill=black!10] (0, 1) rectangle +(4, 1);
+
+    \draw[dotted] (0, 0) grid (12, 12);
+
+    \draw[black!30, xstep=4, ystep=2] (0, 0) grid (12, 12);
+
+    \draw[thick, xstep=4, ystep=6] (0, 0) grid (12, 12);
+    \draw[thick] (0, 0) rectangle (12, 12);
+
+    \draw[|-|] (0, -0.5) -- (4, -0.5) node[below, midway] {\texttt{soalen}};
+    \draw[|-|] (-0.5, 0) -- (-0.5, 2) node[left, midway] {\texttt{ngy}};
+    \draw[|-|] (-0.5, 6) -- (-0.5, 12) node[left, midway] {\texttt{By}};
+    \draw[|-|] (12.5, 0) -- (12.5, 12) node[right, midway] {\texttt{Ly}};
+    \draw[|-|] (0, 12.5) -- (12, 12.5) node[above, midway] {\texttt{Lxh}};
+
+\end{tikzpicture}
         \end{center}
       \end{column}
     \end{columns}
@@ -458,7 +481,7 @@
         % \pause
 
       \item First two classes: \;\; \texttt{std::string serialize(void)}
-      \item Save Instructions into \texttt{InstVector}'s and dumb to file
+      \item Save Instructions into \texttt{InstVector}'s and dump to file
         % \pause
     \end{itemize}
 
@@ -486,17 +509,6 @@
 
     %\lstinputlisting[language=C++]{clover.cc}
 \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 12
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]
-    \frametitle{Code Example 2: Extending the User Interface}
-    \tiny
-%\lstinputlisting[language=C++]{user.cc}
-\end{frame}
-
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%   SLIDE 13
@@ -604,31 +616,6 @@
       \item WEAK scaling up to 64 KNC nodes
         \vfill
     \end{itemize}
-
-  \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 16
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  \begin{frame}
-    \frametitle{Conclusions \& Outlook}
-
-    \begin{itemize}
-      \item Added new data type \& dynamic memory allocation facilities
-      \item Implemented low-level Twisted-Mass-Clover kernels \& hardware feature utility functions
-      \item Extended User Interface, added Testing \& Timing for new kernels,
-        expanded autoconf/automake setup \dots
-      \item Confirmed performance expectations on single KNL's processors
-        \vspace{5mm}
-        \pause
-      \item Interface for tmLQCD
-      \item Non-degenerate Twisted-Mass/Twisted-Mass-Clover \textit{dslash}
-      \item Twisted boundary conditions
-      \item New Algorithms: Domain decomposition, Multi-grid, \dots ?
-        \vfill
-    \end{itemize}
-    \pause
 
   \end{frame}
 
@@ -782,3 +769,5 @@
   \end{frame}
 
   \end{document}
+
+  % vim: spell spelllang=en_gb
