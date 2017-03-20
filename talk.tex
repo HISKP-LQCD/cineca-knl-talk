@@ -182,8 +182,6 @@
           \item \texttt{bool COMPRESS12}
         \end{enumerate}
         \vfill
-      \item Our goal: Integrate Twisted-Mass Fermions in QPhiX \\
-        This amounts to a change in the Fermion Matrix $M$ \dots
     \end{itemize}
 
   \end{frame}
@@ -192,32 +190,32 @@
   %%%   SLIDE 3
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \begin{frame}
-    \frametitle{The Fermion Matrix}
-    Full (even-odd preconditioned) matrix is
-    \begin{align*}
-      M = A - \frac 14 \, \slashed D \, A^{-1} \, \slashed D \,,
-    \end{align*}
-    where $\slashed D$ is the nearest-neighbour \textbf{\textit{dslash} stencil}.
-    \vfill
-
-    $M$ can be constructed from two BLAS Matrix-Vector \textit{kernels}:
-    \begin{align*}
-      (1) \;\; A^{-1} \, \slashed D \, x \,, \quad \quad \quad
-      (2) \;\; A \, x - \frac 14 \, \slashed D \, y \,.
-    \end{align*}
-    The vectors $x$ and $y$ are called \textit{spinors}.
-    \vfill
-
-    The Clover Term $A$ includes a local $12 \times 12 $ matrix:
-    \begin{align*}
-      A \equiv
-      \alpha \, \mathbb 1
-      + c_{sw} T
-    \end{align*}
-    where $c_{sw}$ is a user parameter, while $\alpha$ is fixed.
-    \vfill
-  \end{frame}
+%  \begin{frame}
+%    \frametitle{The Fermion Matrix}
+%    Full (even-odd preconditioned) matrix is
+%    \begin{align*}
+%      M = A - \frac 14 \, \slashed D \, A^{-1} \, \slashed D \,,
+%    \end{align*}
+%    where $\slashed D$ is the nearest-neighbour \textbf{\textit{dslash} stencil}.
+%    \vfill
+%
+%    $M$ can be constructed from two BLAS Matrix-Vector \textit{kernels}:
+%    \begin{align*}
+%      (1) \;\; A^{-1} \, \slashed D \, x \,, \quad \quad \quad
+%      (2) \;\; A \, x - \frac 14 \, \slashed D \, y \,.
+%    \end{align*}
+%    The vectors $x$ and $y$ are called \textit{spinors}.
+%    \vfill
+%
+%    The Clover Term $A$ includes a local $12 \times 12 $ matrix:
+%    \begin{align*}
+%      A \equiv
+%      \alpha \, \mathbb 1
+%      + c_{sw} T
+%    \end{align*}
+%    where $c_{sw}$ is a user parameter, while $\alpha$ is fixed.
+%    \vfill
+%  \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%   SLIDE 4
@@ -299,39 +297,46 @@
     \begin{align*}
       I_A = \textrm{FLOPs per Byte of moved data}
     \end{align*}
+
+    \begin{columns}[t]
+        
+
+    \begin{column}{0.49\linewidth}
+      \begin{block}{We have}
+      \textbf{\textit{dslash} stencil:} \; $\slashed D \,x$ \hfill 1320 FLOPs per site
+      \begin{align*}
+        I_A = 1.06 \; \textrm{FLOP/Byte}
+      \end{align*}
+
+      \textbf{combined multiplication with clover term:} \; $A^{-1}  \slashed D \, x$ \hfill 1872 FLOPs per site
+      \begin{align*}
+        &\mu = 0: \; I_A = 1.17 \; \textrm{FLOP/Byte}
+      \end{align*}
+      \end{block}
+    \end{column}
+
+    \hfill
+    \begin{column}{0.49\linewidth}
+      \begin{block}{The Hardware}
+      \textbf{Theoretical Peaks on KNL / KNC:}
+      \begin{align*}
+        I_A = 15.4 \, / \, 6.3 \; \textrm{FLOP/Byte}
+      \end{align*}
+      \vfill
+      \end{block}
+    \end{column}
+    \end{columns}
+
     \vfill
 
-    \textbf{\textit{dslash} stencil:} \; $\slashed D \,x$ \hfill 1320 FLOPs per site
-    \begin{align*}
-      I_A = 1.06 \; \textrm{FLOP/Byte}
-    \end{align*}
-    \vfill
-
-    \textbf{combined multiplication with clover term:} \; $A^{-1}  \slashed D \, x$ \hfill 1872 FLOPs per site
-    \begin{align*}
-      &\mu = 0: \; I_A = 1.17 \; \textrm{FLOP/Byte} \\
-      &\mu \neq 0: \; I_A = 0.98 \; \textrm{FLOP/Byte}
-    \end{align*}
-    \vfill
-
-    \textbf{Theoretical Peaks on KNL / KNC:}
-    \begin{align*}
-      I_A = 15.4 \, / \, 6.3 \; \textrm{FLOP/Byte}
-    \end{align*}
-    \vfill
-
-    {
-          \large
+      {
+        \large
       \centering \textbf{All routines are memory bandwidth bound}\\
-  }
-    %\textbf{Expect about 20\% less performance with twisted-mass}
+    }
 
-    \vfill
 
       Combining these Intensities with a simple hardware model and the (measured) memory bandwidth
       gives us a good \textit{rooftop model} \dots
-
-      \note{Since our intensity is about 1, we can directly read off the maximum performance we can achieve from the memory bandwidth.}
 
   \end{frame}
 
@@ -485,8 +490,10 @@
             variables in C++ code (\textit{e.g.} of type \texttt{\_\_m512d})
         \end{enumerate}
         % \pause
+            \vfill
 
       \item First two classes: \;\; \texttt{std::string serialize(void)}
+            \vfill
       \item Save Instructions into \texttt{InstVector}'s and dump to file
         % \pause
     \end{itemize}
@@ -570,10 +577,10 @@
         \begin{axis}[
             xtick=data,
             xticklabels={
-vector,
-vector + L1,
-vector + L2,
-vector + L1 and L2,
+vector + packed + streaming,
+           + L1,
+           + L2,
+           + L1 and L2,
 + Barrier,
 + SOA=8,
 + compression
@@ -606,7 +613,7 @@ vector + L1 and L2,
       \end{column}
       \begin{column}{.5\textwidth}
         \begin{center}
-          KNL:\\
+          KNL (DEEP):\\
       \begin{tikzpicture}[scale=0.6]
         \begin{axis}[
             xtick=data,
@@ -756,6 +763,9 @@ vector,
 
           \end{axis}
       \end{tikzpicture}
+
+
+      Half prec is not faster in hardware, is good for bandwidth limited programs (like ours)
   \end{frame}
 
   \begin{frame}
@@ -797,13 +807,13 @@ vector,
                   grid=major,
                   xtick=data,
               ]
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-64.tsv};
               \addlegendentry{$L = 64$}
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-48.tsv};
               \addlegendentry{$L = 48$}
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-32.tsv};
               \addlegendentry{$L = 32$}
           \end{axis}
@@ -824,19 +834,19 @@ vector,
                   xtick=data,
               ]
 
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-64.tsv};
               \addlegendentry{64 Nodes}
 
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-32.tsv};
               \addlegendentry{32 Nodes}
 
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-16.tsv};
               \addlegendentry{16 Nodes}
 
-              \addplot+[only marks, mark=+, error bars/.cd, y dir=both, y explicit]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-8.tsv};
               \addlegendentry{\phantom 1 8 Nodes}
 
