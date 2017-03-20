@@ -822,34 +822,28 @@ vector,
 
   \begin{frame}
       \frametitle{Multi Node Performance}
-      \framesubtitle{Lattice Size Scaling}
+      \framesubtitle{Weak Scaling}
 
       \centering
       \begin{tikzpicture}
           \begin{axis}[
-                  xlabel={Linear Lattice Size $L$},
-                  ylabel={GFlop/s Total},
+                  xmin=0,
+                  ymin=0,
+                  xlabel={Number of Nodes},
+                  ylabel={GFlop/s per Node},
                   legend pos=outer north east,
                   grid=major,
                   xtick=data,
               ]
-
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-64.tsv};
-              \addlegendentry{64 Nodes}
-
+              \addlegendentry{$L = 64$}
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {weak-48.tsv};
+              \addlegendentry{$L = 48$}
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-32.tsv};
-              \addlegendentry{32 Nodes}
-
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {weak-16.tsv};
-              \addlegendentry{16 Nodes}
-
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {weak-8.tsv};
-              \addlegendentry{\phantom 1 8 Nodes}
-
+              \addlegendentry{$L = 32$}
           \end{axis}
       \end{tikzpicture}
   \end{frame}
