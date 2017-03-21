@@ -741,7 +741,7 @@ vector,
                   xmin=0,
                   ymin=0,
                   xlabel={Number of Nodes},
-                  ylabel={GFlop/s Total},
+                  ylabel={TFlop/s Total},
                   %legend pos=outer north east,
                   grid=major,
               ]
@@ -873,6 +873,17 @@ vector,
       \item Single node performance on Marconi A2 is slightly lower than on DEEP
       \item Strong scaling on KNL inferior to Haswell
       \item Strong scaling on Marconi A2 not as good as expected
+    \end{itemize}
+
+    \vfill
+
+    \begin{itemize}
+      \item Aim: Scaling beyond 128 KNL
+        \begin{itemize}
+            \item Microbenchmarks
+            \item Hide communication
+        \end{itemize}
+      \item QPhiX usable within multigrid solvers
     \end{itemize}
   \end{frame}
 
