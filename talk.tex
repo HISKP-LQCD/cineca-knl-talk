@@ -528,40 +528,6 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}
-    \frametitle{Performance of $A^{-1} \, \slashed D \, x $ Kernels}
-    \vspace{-5mm}
-    \footnotesize
-
-    \begin{columns}[T]
-      \begin{column}{.5\textwidth}
-        \begin{center}
-          $c_{sw} = 0, \; \mu = 0$ \\
-          %\includegraphics[width=0.8\textwidth]{wils_32.png}
-          \vfill
-          $c_{sw} \neq 0, \; \mu = 0$ \\
-          %\includegraphics[width=0.8\textwidth]{clov_32.png}
-          \vfill
-        \end{center}
-      \end{column}
-      \begin{column}{.5\textwidth}
-        \begin{center}
-          $c_{sw} = 0, \; \mu \neq 0$ \\
-          %\includegraphics[width=0.8\textwidth]{twmd_32.png}
-          \vfill
-          $c_{sw} \neq 0, \; \mu \neq 0$ \\
-          %\includegraphics[width=0.8\textwidth]{twmc_32.png}
-          \vfill
-        \end{center}
-      \end{column}
-    \end{columns}
-
-  \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 14
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  \begin{frame}
     \frametitle{Optimisation Features on KNC vs. KNL}
     \footnotesize
 
@@ -666,76 +632,6 @@ vector,
 
   \end{frame}
 
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 15
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  \begin{frame}
-    \frametitle{Multi-node results}
-    \footnotesize
-
-    \begin{columns}[T]
-      \begin{column}{.5\textwidth}
-        \begin{center}
-          Dual-Socket Xeon (Haswell):\\
-          %\includegraphics[width=1.0\textwidth]{multi_xeon.png}
-          \vfill
-        \end{center}
-      \end{column}
-      \begin{column}{.5\textwidth}
-        \begin{center}
-          Xeon Phi (KNC):\\
-          %\includegraphics[width=1.0\textwidth]{multi_knc.png}
-          \vfill
-        \end{center}
-      \end{column}
-    \end{columns}
-
-    \bigskip
-
-    \begin{itemize}
-      \item STRONG scaling up to 64 Xeon / 16 KNC nodes for various volumes
-        \vfill
-      \item WEAK scaling up to 64 KNC nodes
-        \vfill
-    \end{itemize}
-
-  \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   6. BACK UP
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  % \begin{frame}
-  %   \centering
-  %   \Large
-  %   Back-up slides
-  % \end{frame}
-
-% \begin{frame}[fragile]
-  %   \frametitle{Integrating Twisted Mass into the Code Generator}
-
-  %   \begin{itemize}
-  %     \item Have to store clover terms as two full blocks
-  %   \end{itemize}
-
-  %   \begin{columns}[T]
-  %     \begin{column}{.5\textwidth}
-  %       \lstinputlisting[language=C++]{old.cc}
-  %     \end{column}
-  %     \begin{column}{.5\textwidth}
-  %       \lstinputlisting[language=C++]{new.cc}
-  %     \end{column}
-  %   \end{columns}
-
-  %   \begin{itemize}
-  %     \item Define new \texttt{Address} \& \texttt{FVec} classes for declarations, loads \& prefetches
-  %       to L1 and L2 caches
-  %   \end{itemize}
-
-  %   \lstinputlisting[language=C++]{pref.cc}
-% \end{frame}
-
   \begin{frame}
     \frametitle{Single Node Performance}
 
@@ -767,8 +663,6 @@ vector,
 
             \end{axis}
           \end{tikzpicture}
-
-          64 Cores, $L = 48$
         \end{column}
 
         \begin{column}{0.6\linewidth}
@@ -789,20 +683,25 @@ vector,
                 ymajorgrids=true,
               ]
 
-              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 166.009833333 ) +- (0, 2.27407204467 ) ( 3.0 , 276.273916667 ) +- (0, 1.93651624652 ) };
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {
+                ( 2.0 , 217.841833333) +- (0, 0.993589751813)
+                ( 3.0 , 363.165083333) +- (0, 2.7395950569) };
               \addlegendentry{ Half }
-              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 191.19375 ) +- (0, 6.59475283119 ) ( 3.0 , 243.890916667 ) +- (0, 2.48770228507 ) };
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {
+                ( 2.0 , 306.195333333) +- (0, 1.95385987405)
+              ( 3.0 , 315.29625) +- (0, 1.86925662633) };
               \addlegendentry{ Single }
-              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {( 2.0 , 113.832583333 ) +- (0, 0.551468890257 ) ( 3.0 , 109.738241667 ) +- (0, 2.46219177387 ) };
+              \addplot+[error bars/.cd, y dir=both, y explicit] coordinates {
+                ( 2.0 , 122.167083333) +- (0, 0.678511273327)
+              ( 3.0 , 114.3745) +- (0, 0.753930501697) };
               \addlegendentry{ Double }
 
             \end{axis}
           \end{tikzpicture}
-
-          68 Cores, $L = 16$
-
         \end{column}
       \end{columns}
+
+          One KNL, one MPI rank, $64 \times 4$ threads, $L = 48$, $T = 96$
 
       %Half prec is not faster in hardware, is good for bandwidth limited programs (like ours)
     \end{frame}
@@ -953,8 +852,8 @@ vector,
     \frametitle{Conclusions \& Outlook}
 
     \begin{itemize}
-      \item Scaling on KNL inferior to Haswell
       \item Single node performance on Marconi A2 is slightly lower than on DEEP
+      \item Strong scaling on KNL inferior to Haswell
       \item Strong scaling on Marconi A2 not as good as expected
     \end{itemize}
   \end{frame}
