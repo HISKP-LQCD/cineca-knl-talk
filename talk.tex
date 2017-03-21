@@ -734,114 +734,136 @@ vector,
       \frametitle{Multi Node Performance}
       \framesubtitle{Strong Scaling}
 
-      \centering
+      \begin{columns}
+        \begin{column}{0.5\linewidth}
+             
       \begin{tikzpicture}
           \begin{axis}[
-              title=Marconi A2,
+              title=JURECA,
+              width=\linewidth,
+              height=0.6\textheight,
                   xmin=0,
                   ymin=0,
                   xlabel={Number of Nodes},
                   ylabel={GFlop/s Total},
-                  legend pos=outer north east,
+                  %legend pos=outer north east,
+                  grid=major,
+              ]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {jureca-strong-64.tsv};
+              %\addlegendentry{$L = 64$}
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {jureca-strong-48.tsv};
+              %\addlegendentry{$L = 48$}
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {jureca-strong-32.tsv};
+              %\addlegendentry{$L = 32$}
+          \end{axis}
+      \end{tikzpicture}
+
+         \end{column}
+        \begin{column}{0.5\linewidth}
+             
+      \begin{tikzpicture}
+          \begin{axis}[
+              title=Marconi A2,
+              width=\linewidth,
+              height=0.6\textheight,
+                  xmin=0,
+                  ymin=0,
+                  xlabel={Number of Nodes},
+                  %ylabel={GFlop/s Total},
+                  %legend pos=outer north east,
                   grid=major,
                   xtick=data,
               ]
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-64.tsv};
-              \addlegendentry{$L = 64$}
+              %\addlegendentry{$L = 64$}
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-48.tsv};
-              \addlegendentry{$L = 48$}
+              %\addlegendentry{$L = 48$}
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {strong-32.tsv};
-              \addlegendentry{$L = 32$}
+              %\addlegendentry{$L = 32$}
           \end{axis}
       \end{tikzpicture}
-  \end{frame}
 
-  \begin{frame}
-      \frametitle{Multi Node Performance}
-      \framesubtitle{Strong Scaling}
+         \end{column}
+      \end{columns}
+      
+        \vfill
 
-      \centering
-      \begin{tikzpicture}
-          \begin{axis}[
-              title=JURECA,
-                  xmin=0,
-                  ymin=0,
-                  xlabel={Number of Nodes},
-                  ylabel={GFlop/s Total},
-                  legend pos=outer north east,
-                  grid=major,
-              ]
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {jureca-strong-64.tsv};
-              \addlegendentry{$L = 64$}
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {jureca-strong-48.tsv};
-              \addlegendentry{$L = 48$}
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {jureca-strong-32.tsv};
-              \addlegendentry{$L = 32$}
-          \end{axis}
-      \end{tikzpicture}
+      Lattice sizes: Blue 64, Red 48, Gold 32.
+
   \end{frame}
 
   \begin{frame}
       \frametitle{Multi Node Performance}
       \framesubtitle{Weak Scaling}
 
-      \centering
+      \begin{columns}
+        \begin{column}{0.5\linewidth}
+            
       \begin{tikzpicture}
           \begin{axis}[
-              title=Marconi A2,
+              title=JURECA,
+              width=\linewidth,
+              height=0.6\textheight,
                   xmin=0,
                   ymin=0,
                   xlabel={Number of Nodes},
                   ylabel={GFlop/s per Node},
-                  legend pos=outer north east,
+                  %legend pos=outer north east,
+                  grid=major,
+              ]
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {jureca-weak-64.tsv};
+              %\addlegendentry{$L = 64$}
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {jureca-weak-48.tsv};
+              %\addlegendentry{$L = 48$}
+              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
+              table[y error index=2] {jureca-weak-32.tsv};
+              %\addlegendentry{$L = 32$}
+          \end{axis}
+      \end{tikzpicture}
+        \end{column}
+
+        \begin{column}{0.5\linewidth}
+            
+      \begin{tikzpicture}
+          \begin{axis}[
+              title=Marconi A2,
+              width=\linewidth,
+              height=0.6\textheight,
+                  xmin=0,
+                  ymin=0,
+                  xlabel={Number of Nodes},
+                  %ylabel={GFlop/s per Node},
+                  %legend pos=outer north east,
                   grid=major,
                   xtick=data,
               ]
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-64.tsv};
-              \addlegendentry{$L = 64$}
+              %\addlegendentry{$L = 64$}
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-48.tsv};
-              \addlegendentry{$L = 48$}
+              %\addlegendentry{$L = 48$}
               \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
               table[y error index=2] {weak-32.tsv};
-              \addlegendentry{$L = 32$}
+              %\addlegendentry{$L = 32$}
           \end{axis}
       \end{tikzpicture}
-  \end{frame}
+        \end{column}
+          
+      \end{columns}
 
-  \begin{frame}
-      \frametitle{Multi Node Performance}
-      \framesubtitle{Weak Scaling}
+      
+        \vfill
 
-      \centering
-      \begin{tikzpicture}
-          \begin{axis}[
-              title=JURECA,
-                  xmin=0,
-                  ymin=0,
-                  xlabel={Number of Nodes},
-                  ylabel={GFlop/s per Node},
-                  legend pos=outer north east,
-                  grid=major,
-              ]
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {jureca-weak-64.tsv};
-              \addlegendentry{$L = 64$}
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {jureca-weak-48.tsv};
-              \addlegendentry{$L = 48$}
-              \addplot+[only marks, mark=*, error bars/.cd, y dir=both, y explicit]
-              table[y error index=2] {jureca-weak-32.tsv};
-              \addlegendentry{$L = 32$}
-          \end{axis}
-      \end{tikzpicture}
+      Lattice sizes: Blue 64, Red 48, Gold 32.
   \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
