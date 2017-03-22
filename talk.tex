@@ -343,52 +343,54 @@
     \frametitle{Data layout \& Cache blocking}
 
     \begin{itemize}
-      \item Elementary vector elements are \textit{Structures of Arrays} (SoA):\\[2mm]
+      \item Elementary vector elements are \textit{Structures of Arrays} (SoA):\\
         \texttt{typedef FT FourSpinorBlock[3][4][2][SOALEN];}
         \vfill
-        % \pause
-      \item \texttt{SOALEN} may be a factor of $\texttt{VECLEN} = \texttt{ngy} * \texttt{SOALEN}$:\\[2mm]
+
+      \item \texttt{SOALEN} may be a factor of $\texttt{VECLEN} = \texttt{ngy} * \texttt{SOALEN}$:\\
         form \textit{tiles} in X-Y-plane (Xeon Phi SP: $16\times1$, $8\times2$, $4\times4$)
     \end{itemize}
-    % \pause
 
-    \vspace{-3mm}
-    \begin{columns}[T]
+    \begin{columns}
+
       \begin{column}{.5\textwidth}
         \begin{center}
           \begin{itemize}
-            \item Then divide lattice in blocks:\\[2mm]
-              \; X: \;\texttt{SOALEN}\\
-              \; Y, Z: \;\texttt{By}, \texttt{Bz}\\[2mm]
+            \item Then divide lattice in blocks:
+              \begin{description}
+                \item[X]    \texttt{SOALEN}\\
+                \item[Y, Z] \texttt{By}, \texttt{Bz}\\[2mm]
+              \end{description}
               such that 3 T-Slices fit into L2
               \vfill
-              \vspace{3mm}
           \end{itemize}
         \end{center}
       \end{column}
+
       \begin{column}{.5\textwidth}
         \begin{center}
-\begin{tikzpicture}[scale=0.3]
+          \begin{tikzpicture}[scale=0.3]
 
-    \fill[fill=black!20] (0, 0) rectangle +(4, 1);
-    \fill[fill=black!10] (0, 1) rectangle +(4, 1);
+            \fill[fill=black!20] (0, 0) rectangle +(4, 1);
+            \fill[fill=black!10] (0, 1) rectangle +(4, 1);
 
-    \draw[dotted] (0, 0) grid (12, 12);
+            \draw[dotted] (0, 0) grid (12, 12);
 
-    \draw[black!30, xstep=4, ystep=2] (0, 0) grid (12, 12);
+            \draw[black!30, xstep=4, ystep=2] (0, 0) grid (12, 12);
 
-    \draw[thick, xstep=4, ystep=6] (0, 0) grid (12, 12);
-    \draw[thick] (0, 0) rectangle (12, 12);
+            \draw[thick, xstep=4, ystep=6] (0, 0) grid (12, 12);
+            \draw[thick] (0, 0) rectangle (12, 12);
 
-    \draw[|-|] (0, -0.5) -- (4, -0.5) node[below, midway] {\texttt{soalen}};
-    \draw[|-|] (-0.5, 0) -- (-0.5, 2) node[left, midway] {\texttt{ngy}};
-    \draw[|-|] (-0.5, 6) -- (-0.5, 12) node[left, midway] {\texttt{By}};
-    \draw[|-|] (12.5, 0) -- (12.5, 12) node[right, midway] {\texttt{Ly}};
-    \draw[|-|] (0, 12.5) -- (12, 12.5) node[above, midway] {\texttt{Lxh}};
+            \draw[|-|] (0, -0.5) -- (4, -0.5) node[below, midway] {\texttt{soalen}};
+            \draw[|-|] (-0.5, 0) -- (-0.5, 2) node[left, midway] {\texttt{ngy}};
+            \draw[|-|] (-0.5, 6) -- (-0.5, 12) node[left, midway] {\texttt{By}};
+            \draw[|-|] (12.5, 0) -- (12.5, 12) node[right, midway] {\texttt{Ly}};
+            \draw[|-|] (0, 12.5) -- (12, 12.5) node[above, midway] {\texttt{Lxh}};
 
-\end{tikzpicture}
+          \end{tikzpicture}
         \end{center}
       \end{column}
+
     \end{columns}
 
   \end{frame}
@@ -417,19 +419,19 @@
 
     \begin{itemize}
 
-      \item Three abstract (class) objects:
+      \item Three abstract classes:
         \begin{enumerate}
-          \item \texttt{Instruction}: FLOPs, Memory inst., scope delimiters, if-else, \dots
-          \item \texttt{Address}: Memory addresses to deal with pointers \& offsets
-          \item \texttt{FVec}: ``The registers'' which are fed to intrinsic calls,\\ \textit{i.e.}
-            variables in C++ code (\textit{e.g.} of type \texttt{\_\_m512d})
+          \item \texttt{Instruction}
+          \item \texttt{Address}
+          \item \texttt{FVec}
         \end{enumerate}
         \vfill
 
       \item First two classes: \;\; \texttt{std::string serialize(void)}
         \vfill
 
-      \item Concrete implementations of \texttt{serialize} determine the ISA
+      \item Concrete implementations of \texttt{serialize} determine the ISA\\
+        TODO: code example
         \vfill
 
       \item Save Instructions into \texttt{InstVector}'s and dump to file
