@@ -948,9 +948,16 @@ vector,
     \frametitle{Conclusions \& Outlook}
 
     \begin{itemize}
-      \item Single node performance on Marconi A2 is slightly lower than on DEEP
+        \item Enforcing SIMD with code generation appears to be a must for
+          performance
+        \item Optimization efforts for KNL also pay off very well for Haswell
+    \end{itemize}
+
+    \vfill
+
+    \begin{itemize}
+      \item Single node performance on Marconi A2 is 25\,\% lower than on DEEP
       \item Strong scaling on KNL inferior to Haswell
-      \item Strong scaling on Marconi A2 not as good as expected
     \end{itemize}
 
     \vfill
