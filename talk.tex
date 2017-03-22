@@ -893,9 +893,9 @@ vector,
       \begin{column}{0.5\linewidth}
           \begin{tikzpicture}
             \begin{axis}[
-                title={Time to Solution},
+                title={Solve},
                 width=\linewidth,
-                %height=0.5\textheight,
+                %height=0.3\textheight,
                 ymin=0,
                 xmin=0.5,
                 xmax=2.5,
@@ -916,13 +916,38 @@ vector,
 
             \end{axis}
           \end{tikzpicture}
+
+%          \begin{tikzpicture}
+%            \begin{axis}[
+%                title={Solve},
+%                width=\linewidth,
+%                height=0.3\textheight,
+%                ymin=0,
+%                xmin=0.5,
+%                xmax=2.5,
+%                xtick={1, 2},
+%                xticklabels={Chroma, QPhiX},
+%                xlabel={Implementation},
+%                ylabel={Seconds},
+%                ybar,
+%                ymajorgrids=true,
+%                ytick=data,
+%              ]
+%
+%              \addplot coordinates {
+%                ( 1.0 , 1079.359599 )
+%                ( 2.0 , 748.634722 )
+%              };
+%
+%            \end{axis}
+%          \end{tikzpicture}
           
       \end{column}
 
       \begin{column}{0.5\linewidth}
         \begin{itemize}
           \item 81 Nodes
-          \item 2 Xeon E5-2680 v3 @ 2.50\,GHz \\ $2×12$ cores, SMT unused
+          \item 2 Xeon E5-2680 v3 @ 2.50\,GHz \\ $2×12$ cores, HyperThreading unused
           \item Intel C++ 2017 compiler
           \item $24^3 \times 96$ lattice
           \item Almost thermalized \\ (many iterations needed)
