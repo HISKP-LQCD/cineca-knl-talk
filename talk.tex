@@ -398,11 +398,21 @@
   \begin{frame}
     \frametitle{Heuristic Load Balancing}
 
-    \begin{itemize}
-      \item Distribute blocks to cores/threads \& process in chunks
-        of SIMD vectors, \textit{i.e.} tiles
-        \vfill
-    \end{itemize}
+
+    \begin{columns}
+      \begin{column}{.45\linewidth}
+        \includegraphics[height=0.85\textheight]{phases-crop.png}
+      \end{column}
+      \begin{column}{.50\linewidth}
+        3.5 Dimensional Blocking:
+
+        \begin{itemize}
+          \item Each core processes one block per phase
+          \item If fewer blocks than core, split in T-direction
+          \item Process remainder after maximum number of splits
+        \end{itemize}
+      \end{column}
+    \end{columns}
 
   \end{frame}
 
