@@ -886,6 +886,55 @@ vector,
       Lattice sizes: Blue 64, Red 48, Gold 32.
   \end{frame}
 
+  \begin{frame}
+    \frametitle{Benefit for Xeon}
+
+    \begin{columns}
+      \begin{column}{0.5\linewidth}
+          \begin{tikzpicture}
+            \begin{axis}[
+                title={Time to Solution},
+                width=\linewidth,
+                %height=0.5\textheight,
+                ymin=0,
+                xmin=0.5,
+                xmax=2.5,
+                xtick={1, 2},
+                xticklabels={Chroma, QPhiX},
+                xlabel={Implementation},
+                ylabel={Seconds},
+                ybar,
+                ymajorgrids=true,
+                ytick=data,
+              ]
+
+              \addplot coordinates {
+                ( 1.0 , 6.073364 )
+                ( 2.0 , 0.590205 )
+              };
+
+
+            \end{axis}
+          \end{tikzpicture}
+          
+      \end{column}
+
+      \begin{column}{0.5\linewidth}
+        \begin{itemize}
+          \item 81 Nodes
+          \item 2 Xeon E5-2680 v3 @ 2.50\,GHz \\ $2×12$ cores, SMT unused
+          \item Intel C++ 2017 compiler
+          \item $24^3 \times 96$ lattice
+          \item Almost thermalized \\ (many iterations needed)
+          \item BiCGStab solver
+          \item $265 \pm 3$ iterations
+        \end{itemize}
+      \end{column}
+    \end{columns}
+
+
+  \end{frame}
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%   SLIDE 16
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
