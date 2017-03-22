@@ -860,13 +860,13 @@ vector,
   \end{frame}
 
   \begin{frame}
-    \frametitle{Benefit for Xeon}
+    \frametitle{Benefits of backporting to Haswell}
+    \framesubtitle{Solving a linear system of equations}
 
     \begin{columns}
       \begin{column}{0.5\linewidth}
           \begin{tikzpicture}
             \begin{axis}[
-                title={Solve},
                 width=\linewidth,
                 %height=0.3\textheight,
                 ymin=0,
@@ -875,7 +875,7 @@ vector,
                 xtick={1, 2},
                 xticklabels={Chroma, QPhiX},
                 xlabel={Implementation},
-                ylabel={Seconds},
+                ylabel={Time to Solution (s)},
                 ybar,
                 ymajorgrids=true,
                 ytick=data,
@@ -919,16 +919,23 @@ vector,
 
       \begin{column}{0.5\linewidth}
         \begin{itemize}
-          \item 81 Nodes
-          \item 2 Xeon E5-2680 v3 @ 2.50\,GHz \\ $2×12$ cores, HyperThreading unused
-          \item Intel C++ 2017 compiler
-          \item $24^3 \times 96$ lattice
-          \item Almost thermalized \\ (many iterations needed)
-          \item BiCGStab solver
-          \item $265 \pm 3$ iterations
+          \item 81 Nodes: \\
+          2 Xeon E5-2680 v3 @ 2.50\,GHz \\ $2×12$ cores, HyperThreading unused
+          \item Compiler: Intel C++ 2017
+
+            \vspace{1.5ex}
+
+          \item BiCGStab Solver: \\ $265 \pm 3$ iterations
         \end{itemize}
       \end{column}
     \end{columns}
+
+
+    \begin{small}
+      \begin{itemize}
+        \item $24^3 \times 96$ lattice (almost thermalized)
+      \end{itemize}
+    \end{small}
 
 
   \end{frame}
