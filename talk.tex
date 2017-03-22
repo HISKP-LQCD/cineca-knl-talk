@@ -374,10 +374,10 @@
 
     \draw[black!30, xstep=4, ystep=2] (0, 0) grid (16, 8);
 
-    \draw[thick, xstep=4, ystep=4] (0, 0) grid (16, 8);
+    \draw[thick, xstep=8, ystep=4] (0, 0) grid (16, 8);
     \draw[thick] (0, 0) rectangle (16, 8);
 
-    \draw[|-|] (0, -0.5) -- (4, -0.5) node[below, midway] {\texttt{soalen}};
+    \draw[|-|] (0, -0.5) -- (8, -0.5) node[below, midway] {\texttt{SOALEN}};
     \draw[|-|] (-0.5, 0) -- (-0.5, 2) node[left, midway] {\texttt{ngy}};
     \draw[|-|] (-0.5, 4) -- (-0.5, 8) node[left, midway] {\texttt{By}};
     \draw[|-|] (16.5, 0) -- (16.5, 8) node[right, midway] {\texttt{Ly}};
@@ -467,23 +467,47 @@
     \frametitle{Optimisation Features}
 
 
-    \begin{block}{QPhiX Code Generator}
-    \begin{itemize}
-        \item L1 Prefetches
-        \item L2 Prefetches
-        \item Streaming Stores
-        \item Gauge Packing
-        \item Barriers
-    \end{itemize}
-    \end{block}
+    \begin{columns}
+      \begin{column}{0.4\linewidth}
+        \begin{block}{QPhiX Code Generator}
+          \begin{itemize}
+            \item L1 Prefetches
+            \item L2 Prefetches
+            \item Streaming Stores
+            \item Gauge Packing
+            \item Barriers
+          \end{itemize}
+        \end{block}
 
-    \begin{block}{QPhiX User Library}
-    \begin{itemize}
-      \item Floating point type
-      \item SoA length
-      \item Gauge Compression
-    \end{itemize}
-    \end{block}
+        \begin{block}{QPhiX User Library}
+          \begin{itemize}
+            \item Floating point type
+            \item SoA length
+            \item Gauge Compression
+          \end{itemize}
+        \end{block}
+      \end{column}
+      \begin{column}{0.6\linewidth}
+        \begin{tikzpicture}[scale=0.3]
+          \fill[fill=black!20] (0, 0) rectangle +(8, 1);
+          \fill[fill=black!10] (0, 1) rectangle +(8, 1);
+
+          \draw[dotted] (0, 0) grid (16, 8);
+
+          \draw[black!30, xstep=4, ystep=2] (0, 0) grid (16, 8);
+
+          \draw[thick, xstep=8, ystep=4] (0, 0) grid (16, 8);
+          \draw[thick] (0, 0) rectangle (16, 8);
+
+          \draw[|-|] (0, -0.5) -- (8, -0.5) node[below, midway] {\texttt{SOALEN}};
+          \draw[|-|] (-0.5, 0) -- (-0.5, 2) node[left, midway] {\texttt{ngy}};
+          \draw[|-|] (-0.5, 4) -- (-0.5, 8) node[left, midway] {\texttt{By}};
+          \draw[|-|] (16.5, 0) -- (16.5, 8) node[right, midway] {\texttt{Ly}};
+          \draw[|-|] (0, 8.5) -- (16, 8.5) node[above, midway] {\texttt{Lx}};
+        \end{tikzpicture}
+      \end{column}
+    \end{columns}
+
 
   \end{frame}
 
