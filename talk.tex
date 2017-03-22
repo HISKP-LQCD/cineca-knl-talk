@@ -138,9 +138,8 @@
         \vfill
 
       \item Most \textit{expensive} part:\\[1mm]
-        \hspace{2mm} Matrix times Vector (very large $10^9$ squared \& very sparse),\\
-        \hspace{2mm} described by (next-to) nearest-neighbour stencil
-        % , called \textit{dslash}
+        \hspace{2mm} Matrix times Vector (very large \& sparse),\\
+        \hspace{2mm} described by \textbf{nearest-neighbour stencil}
         \vfill
     \end{itemize}
 
@@ -158,11 +157,9 @@
         \vfill
       \item Parallelised via QMP + OpenMP + SIMD (vector intrinsics)
         \vfill
-      \item C++11 template library with external C++ code generator\\
+      \item C++11 template library with external C++ \textbf{code generator}\\
         ($\sim25k$ lines of code + $10k$ testing \& timing)
         \vfill
-      % \item Implements even-odd preconditioning, mixed precision solvers, tiling/SoA data layout, 3.5d cache blocking,
-      %   gauge compression, \dots
       \item Implements
         \begin{enumerate}
           \item Wilson / Wilson-Clover \textit{dslash} stencils
@@ -186,103 +183,43 @@
   %%%   SLIDE 3
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%  \begin{frame}
-%    \frametitle{The Fermion Matrix}
-%    Full (even-odd preconditioned) matrix is
-%    \begin{align*}
-%      M = A - \frac 14 \, \slashed D \, A^{-1} \, \slashed D \,,
-%    \end{align*}
-%    where $\slashed D$ is the nearest-neighbour \textbf{\textit{dslash} stencil}.
-%    \vfill
-%
-%    $M$ can be constructed from two BLAS Matrix-Vector \textit{kernels}:
-%    \begin{align*}
-%      (1) \;\; A^{-1} \, \slashed D \, x \,, \quad \quad \quad
-%      (2) \;\; A \, x - \frac 14 \, \slashed D \, y \,.
-%    \end{align*}
-%    The vectors $x$ and $y$ are called \textit{spinors}.
-%    \vfill
-%
-%    The Clover Term $A$ includes a local $12 \times 12 $ matrix:
-%    \begin{align*}
-%      A \equiv
-%      \alpha \, \mathbb 1
-%      + c_{sw} T
-%    \end{align*}
-%    where $c_{sw}$ is a user parameter, while $\alpha$ is fixed.
-%    \vfill
-%  \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 4
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
   \begin{frame}
     \frametitle{The \textit{dslash} stencil in action}
 
     \begin{align*}
       \nonumber
-      \chi^a_\alpha(x) &= \sum_{y \in \Lambda} \sum_{b = 0}^2 \sum_{\beta = 0}^3 \slashed D^{ab}_{\alpha \beta}(x,y) \psi^b_\beta(y) \\
-      &= \sum_{b = 0}^2 \sum_{\beta = 0}^3 \sum_{\mu=0}^3
+      \chi^a_\alpha(x)
+      % &= \sum_{y \in \Lambda} \sum_{b = 0}^2 \sum_{\beta = 0}^3 \slashed D^{ab}_{\alpha \beta}(x,y) \psi^b_\beta(y) \\
+      &= \sum_{b = 1}^3 \sum_{\beta = 1}^4 \sum_{\mu=1}^4
       \bigg[
-        U^{ab}(x,x+\hat\mu) \; (\mathbb{1}-\gamma_\mu)_{\alpha\beta} \; \psi^b_\beta(x+\hat\mu) + \\
+        U^{ab}(x,x+\hat\mu) \; P^{-\, \mu}_{\alpha\beta} \; \psi^b_\beta(x+\hat\mu) + \\
         \nonumber
         &\hspace{25.0mm}
-        U^{\dagger\, ab}(x,x-\hat\mu) \; (\mathbb{1}+\gamma_\mu)_{\alpha\beta} \; \psi^b_\beta(x-\hat\mu)
+        U^{\dagger\, ab}(x,x-\hat\mu) \; P^{+\,\mu}_{\alpha\beta} \; \psi^b_\beta(x-\hat\mu)
       \bigg]
     \end{align*}
 
-    \begin{itemize}
-      \item $x,y$: points/sites of the lattice $\Lambda$\\
-      \item $\psi$: input \textbf{spinor}: $3 \times 4 \times 2 = 24$ components per site\\
-      \item $\chi$: output spinor\\
-      \item $U$: \textbf{gauge} or link variables: $3 \times 3 \times 2 = 18$ components per site\\
-      \item $\gamma_\mu$: 4 constant $4 \times 4$ complex matrices
-      \item $\hat \mu$: 4 unit vectors (one for each space-time dimension)
-    \end{itemize}
+    \vfill
+    For each site $x$ of the lattice:
+    \vfill
+    \begin{enumerate}
+      \item Project on \textit{half} the spinor components via $P^{\pm\,\mu}_{\alpha\beta}$
+      \item Hermitian Matrix Multiplication ($3 \times 3$ complex)
+      \item Reconstruct and accumulate 8 contributions
+    \end{enumerate}
+    % \begin{itemize}
+    %   \item $x,y$: points/sites of the lattice $\Lambda$\\
+    %   \item $\psi$: input \textbf{spinor}: $3 \times 4 \times 2 = 24$ components per site\\
+    %   \item $\chi$: output spinor\\
+    %   \item $U$: \textbf{gauge} or link variables: $3 \times 3 \times 2 = 18$ components per site\\
+    %   \item $\gamma_\mu$: 4 constant $4 \times 4$ complex matrices
+    %   \item $\hat \mu$: 4 unit vectors (one for each space-time dimension)
+    % \end{itemize}
 
   \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 5
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%  \begin{frame}
-%    \frametitle{The Clover Term}
-%
-%    $A$ is a $12 \times 12$ complex, block-diagonal matrix (each lattice site):
-%    \begin{align*}
-%      A &=
-%      \begin{pmatrix}
-%        ( \alpha \pm i \mu ) \, \mathbb{1}_6 + c_{SW} B_0 & \mathbb 0_6 \\
-%        \mathbb 0_6 & (\alpha \mp i \mu) \, \mathbb{1}_6 + c_{SW} B_1
-%      \end{pmatrix}
-%    \end{align*}
-%    \vfill
-%
-%    QPhiX so far:
-%    \begin{itemize}
-%      \item $\mu = 0 \Rightarrow A$ and $A^{-1}$ are hermitian (and block-diagonal)
-%      \item need to store only two blocks with
-%        \begin{itemize}
-%          \item 6 real diagonal elements
-%          \item 15 complex off-diagonal elements
-%        \end{itemize}
-%    \end{itemize}
-%    \vfill
-%
-%    We want: $\mu \neq 0$
-%    \begin{itemize}
-%      \item then $A$ is not hermitian
-%      \item in particular $A^{-1}$ is dense (but still block-diagonal)
-%      \item need to store two full $6 \times 6$ complex blocks
-%    \end{itemize}
-%    \vfill
-%
-%  \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 6
+  %%%   SLIDE 4
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}
@@ -291,29 +228,27 @@
     \footnotesize
 
     \begin{align*}
-      I_A = \textrm{FLOPs per Byte of moved data}
+      I_A = \textrm{FLOPs per Byte of moved data [here: single precision]}
     \end{align*}
 
     \begin{columns}[t]
-        
-
     \begin{column}{0.49\linewidth}
-      \begin{block}{We have}
-      \textbf{\textit{dslash} stencil:} \; $\slashed D \,x$ \hfill 1320 FLOPs per site
+      \begin{block}{Our Stencil Operations}
+      \textbf{\textit{dslash} stencil:} \\ $\slashed D \,x$ \hfill 1320 FLOPs per site
       \begin{align*}
         I_A = 1.06 \; \textrm{FLOP/Byte}
       \end{align*}
 
-      \textbf{combined multiplication with clover term:} \; $A^{-1}  \slashed D \, x$ \hfill 1872 FLOPs per site
+      \textbf{\textit{dslash} stencil with clover term:} \\ $A^{-1}  \slashed D \, x$ \hfill 1872 FLOPs per site
       \begin{align*}
-        &\mu = 0: \; I_A = 1.17 \; \textrm{FLOP/Byte}
+        I_A = 1.17 \; \textrm{FLOP/Byte}
       \end{align*}
       \end{block}
     \end{column}
 
     \hfill
     \begin{column}{0.49\linewidth}
-      \begin{block}{The Hardware}
+      \begin{block}{The Hardware Peak}
       \textbf{Theoretical Peaks on KNL / KNC:}
       \begin{align*}
         I_A = 15.4 \, / \, 6.3 \; \textrm{FLOP/Byte}
@@ -324,42 +259,32 @@
     \end{columns}
 
     \vfill
-
-      {
-        \large
+    {
+      \large
       \centering \textbf{All routines are memory bandwidth bound}\\
     }
 
-
-      Combining these Intensities with a simple hardware model and the (measured) memory bandwidth
-      gives us a good \textit{rooftop model} \dots
+    \vfill
+    Combining these intensities with a simple hardware model and the (measured) memory bandwidth
+    gives us a good \textit{rooftop model} \dots
 
   \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 7
+  %%%   SLIDE 5
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}
-    \frametitle{Intel Xeon Phi Knights Landing (KNL)}
-    \vspace{-7mm}
+    \frametitle{Intel Xeon Phi Knights Landing Hierarchies}
 
     \begin{columns}[T]
       \begin{column}{.5\textwidth}
-        \begin{center}
-          %\includegraphics[width=0.7\textwidth]{knl.eps}
-        \end{center}
-      \end{column}
-      \begin{column}{.5\textwidth}
-        \begin{center}
-          %\includegraphics[width=0.7\textwidth]{tile.png}
-        \end{center}
-      \end{column}
-    \end{columns}
-    \vspace{3mm}
-
-    \begin{columns}[T]
-      \begin{column}{.5\textwidth}
+        \vspace{3mm}
+        {
+          \center Peak Performance versus
+          Memory Bandwidth:
+        }
+        \vspace{3mm}
         \begin{itemize}
           \item up to 72 cores @ 1.5 GHz\\ (3.5 TFLOP/s)
           \item 2D Mesh: 700 GB/s
@@ -368,19 +293,16 @@
         \end{itemize}
       \end{column}
       \begin{column}{.5\textwidth}
-        \begin{itemize}
-          \item 2 cores / 4 VPUs
-          \item 512-bit Vector Registers (AVX-512)
-          \item 4 hardware hyper-threads
-          \item 1 MB shared L2 cache
-        \end{itemize}
+        \begin{center}
+          \includegraphics[width=0.9\textwidth]{knl.eps}
+        \end{center}
       \end{column}
     \end{columns}
 
   \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 8
+  %%%   SLIDE 6
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}
@@ -404,45 +326,43 @@
 
     \textbf{Optimisations in QPhiX-codegen:}\\
     L1 \& L2 software prefetches,
-    dimensions of tiles (\texttt{SOALEN}),
-    streaming stores, gather/scatter, \dots
+    dimensions of tiles (\texttt{SOALEN}),\\
+    streaming stores, gather/scatter instructions, \dots
 
   \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 9
+  %%%   SLIDE 7
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}
     \frametitle{Data layout \& Cache blocking}
 
     \begin{itemize}
-      \item Elementary vector elements are \textit{Structures of Arrays} (SoA):\\[2mm]
+      \item Elementary vector elements are \textit{Structures of Arrays} (SoA):\\
         \texttt{typedef FT FourSpinorBlock[3][4][2][SOALEN];}
         \vfill
-        % \pause
-      \item \texttt{SOALEN} may be a factor of $\texttt{VECLEN} = \texttt{ngy} * \texttt{SOALEN}$:\\[2mm]
+
+      \item \texttt{SOALEN} may be a factor of $\texttt{VECLEN} = \texttt{ngy} * \texttt{SOALEN}$:\\
         form \textit{tiles} in X-Y-plane (Xeon Phi SP: $16\times1$, $8\times2$, $4\times4$)
     \end{itemize}
-    % \pause
 
-    \vspace{-3mm}
-    \begin{columns}[T]
+    \begin{columns}
+
       \begin{column}{.5\textwidth}
         \begin{center}
           \begin{itemize}
-            \item Then divide lattice in blocks:\\[2mm]
-              \; X: \;\texttt{SOALEN}\\
-              \; Y, Z: \;\texttt{By}, \texttt{Bz}\\[2mm]
+            \item Then divide lattice in blocks:
+              \begin{description}
+                \item[X]    \texttt{SOALEN}\\
+                \item[Y, Z] \texttt{By}, \texttt{Bz}\\[2mm]
+              \end{description}
               such that 3 T-Slices fit into L2
-              \vfill
-              \vspace{3mm}
-            \item Distribute blocks to cores/threads \& process in chunks
-              of SIMD vectors, \textit{i.e.} tiles
               \vfill
           \end{itemize}
         \end{center}
       \end{column}
+
       \begin{column}{.5\textwidth}
         \begin{center}
 \begin{tikzpicture}[scale=0.25]
@@ -463,10 +383,56 @@
     \draw[|-|] (16.5, 0) -- (16.5, 8) node[right, midway] {\texttt{Ly}};
     \draw[|-|] (0, 8.5) -- (16, 8.5) node[above, midway] {\texttt{Lx}};
 
-\end{tikzpicture}
+          \end{tikzpicture}
         \end{center}
       \end{column}
+
     \end{columns}
+
+  \end{frame}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%   SLIDE 8
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{frame}
+    \frametitle{Heuristic Load Balancing}
+
+    \begin{itemize}
+      \item Distribute blocks to cores/threads \& process in chunks
+        of SIMD vectors, \textit{i.e.} tiles
+        \vfill
+    \end{itemize}
+
+  \end{frame}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%   SLIDE 9
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{frame}
+    \frametitle{QPhiX-codegen}
+
+    \begin{itemize}
+
+      \item Three abstract classes:
+        \begin{enumerate}
+          \item \texttt{Instruction}
+          \item \texttt{Address}
+          \item \texttt{FVec}
+        \end{enumerate}
+        \vfill
+
+      \item First two classes: \;\; \texttt{std::string serialize(void)}
+        \vfill
+
+      \item Concrete implementations of \texttt{serialize} determine the ISA\\
+        TODO: code example
+        \vfill
+
+      \item Save Instructions into \texttt{InstVector}'s and dump to file
+
+    \end{itemize}
 
   \end{frame}
 
@@ -475,48 +441,10 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \begin{frame}[fragile]
-    \frametitle{QPhiX-codegen}
+    \frametitle{Code Example: Hermitian Matrix Multiplication}
+    \small
 
-    \begin{itemize}
-      \item Three abstract (class) objects:
-        \begin{enumerate}
-          \item \texttt{Instruction}: FLOPs, Memory inst., scope delimiters, if-else, \dots
-          \item \texttt{Address}: Memory addresses to deal with pointers \& offsets
-          \item \texttt{FVec}: ``The registers'' which are fed to intrinsic calls, \textit{i.e.}
-            variables in C++ code (\textit{e.g.} of type \texttt{\_\_m512d})
-        \end{enumerate}
-        % \pause
-            \vfill
-
-      \item First two classes: \;\; \texttt{std::string serialize(void)}
-            \vfill
-      \item Save Instructions into \texttt{InstVector}'s and dump to file
-        % \pause
-    \end{itemize}
-
-    \tiny
-    %\lstinputlisting[language=C++]{codegen.cc}
-\end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%   SLIDE 11
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  \begin{frame}[fragile]
-    \frametitle{Code Example 1: NEW Clover Term Multiplication}
-    \tiny
-
-    \begin{columns}[T]
-      \begin{column}{.5\textwidth}
-        %\lstinputlisting[language=C++]{old.cc}
-      \end{column}
-      \begin{column}{.5\textwidth}
-        %\lstinputlisting[language=C++]{new.cc}
-      \end{column}
-    \end{columns}
-    % \pause
-
-    %\lstinputlisting[language=C++]{clover.cc}
+    \lstinputlisting[language=C++]{clover.cc}
 \end{frame}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
