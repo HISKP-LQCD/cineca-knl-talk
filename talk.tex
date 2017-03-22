@@ -513,11 +513,7 @@
 
   \begin{frame}
     \frametitle{Optimisation Features on KNC vs. KNL}
-    \footnotesize
-
-    {\tiny
-    Displayed is the basic \textit{dslash} stencil ($c_{sw}=\mu=0$) in single precision
-    with $\texttt{SOA}=16$.}
+    \framesubtitle{ Single precision, $\texttt{SOALEN}=16$}
 
     \begin{columns}[T]
       \begin{column}{.5\textwidth}
@@ -527,7 +523,7 @@
         \begin{axis}[
             xtick=data,
             xticklabels={
-vector + packed + streaming,
+              {\parbox{7em}{vector + packed \\ + streaming}},
            + L1,
            + L2,
            + L1 and L2,
@@ -606,13 +602,13 @@ vector,
       \end{column}
     \end{columns}
 
+    \begin{small}
     \begin{itemize}
       \item KNL natively supports prefetches \& streaming stores much better than KNC
-        \vfill
-      \item Visible benefits from data layout tuning (shown here: SoA length tuning)
-        \vfill
-      % \item greatest benefits from algorithmic improvements
+      \item Visible benefits from data layout tuning (packing \& SoA length)
+      \item Greatest benefits from algorithmic improvements
     \end{itemize}
+    \end{small}
 
   \end{frame}
 
